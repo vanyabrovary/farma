@@ -8,7 +8,6 @@ use app\components\mappers\InvoiceXlsMapper;
 use app\components\parsers\XlsParser;
 use app\models\elastic\InvoiceElastic;
 use app\models\mongo\InvoiceMongo;
-use yii\db\Exception;
 
 /**
  * Import invoices data from xls to MongoDB and Elastic
@@ -45,6 +44,20 @@ class InvoiceController extends Controller
 
         InvoiceElastic::deleteIndex();
         InvoiceElastic::createIndex();
+
+        return ExitCode::OK;
+    }
+
+    /**
+     * Remove all data from MongoDB
+     *
+     * @return int
+     */
+    public function actionDeleteDataFomMongo(): int
+    {
+        echo "\nDelete all data from MongoDB\n";
+
+        InvoiceMongo::deleteAll();
 
         return ExitCode::OK;
     }
