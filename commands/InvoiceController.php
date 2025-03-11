@@ -8,12 +8,20 @@ use app\components\mappers\InvoiceXlsMapper;
 use app\components\parsers\XlsParser;
 use app\models\elastic\InvoiceElastic;
 use app\models\mongo\InvoiceMongo;
+use yii\db\Exception;
 
-
+/**
+ * Import invoices data from xls to MongoDB and Elastic
+ *
+ */
 class InvoiceController extends Controller
 {
-
-    public function actionImport()
+    /**
+     * Import data from xls to MongoDB and from MongoDB to Elastic
+     *
+     * @return int
+     */
+    public function actionImport(): int
     {
         echo "\nStart import\n";
 
@@ -26,7 +34,12 @@ class InvoiceController extends Controller
         return ExitCode::OK;
     }
 
-    public function actionElasticRecreateMappings()
+    /**
+     * Recreate Elastic indexes
+     *
+     * @return int
+     */
+    public function actionElasticRecreateMappings(): int
     {
         echo "\nRecreate Elastic indexes\n";
 
@@ -36,6 +49,11 @@ class InvoiceController extends Controller
         return ExitCode::OK;
     }
 
+    /**
+     * Get and prepare data for MongoDB from xls file
+     *
+     * @return array
+     */
     private function getDataFomXls(): array
     {
         echo "\nGetting data from xls\n";
@@ -44,11 +62,16 @@ class InvoiceController extends Controller
         return (new XlsParser())->parseFile($xlsFilePath, fn($row) => InvoiceXlsMapper::map($row)) ?? [];
     }
 
+    /**
+     * Import invoice data from xls to MongoDB
+     *
+     * @return void
+     */
     private function importToMongo(array $data): void
     {
         echo "\nImporting data to MongoDB\n";
 
-        foreach ($data as $rowNum => $row) {
+        foreach ($data as $row) {
             if (!InvoiceMongo::find()->where(['row_checksum' => $row['row_checksum']])->exists()) {
                 $invoice = new InvoiceMongo();
                 $invoice->setAttributes($row, false);
@@ -60,6 +83,11 @@ class InvoiceController extends Controller
         }
     }
 
+    /**
+     * Import some cols from MongoDB to Elastic
+     *
+     * @return void
+     */
     private function importToElastic(): void
     {
         echo "\nImporting data to Elastic\n";

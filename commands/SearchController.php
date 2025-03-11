@@ -5,8 +5,18 @@ namespace app\commands;
 use yii\console\{Controller,ExitCode};
 use app\models\elastic\InvoiceElastic;
 
+/**
+ * Display invoices data from Elastic
+ *
+ */
 class SearchController extends Controller
 {
+
+    /**
+     * Display aggregated invoices data from Elastic
+     *
+     * @return int
+     */
     public function actionInvoice()
     {
         $response = InvoiceElastic::find()
@@ -54,5 +64,3 @@ class SearchController extends Controller
         return ExitCode::OK;
     }
 }
-
-
