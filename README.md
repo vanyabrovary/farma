@@ -1,8 +1,8 @@
-DIRECTORY STRUCTURE
--------------------
+### Запуск импорта данных из xls в mongodb и elastic
+`./yii invoice/import`
 
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      vendor/             contains dependent 3rd-party packages
+### Отображение данных в консоли
+`./yii search/invoice`
+
+### Очистка коллекции elastic
+`./yii invoice/elastic-recreate-mappings`
