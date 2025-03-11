@@ -44,7 +44,6 @@ class SearchController extends Controller
                 ]
             )->limit(0)->search();
 
-
         if (!empty($response['aggregations']['regions']['buckets'])) {
             foreach ($response['aggregations']['regions']['buckets'] as $region) {
                 echo "Регион: " . $region['key'] . "\n";
@@ -58,7 +57,7 @@ class SearchController extends Controller
                 echo "------------------------\n";
             }
         } else {
-            echo "Нет данных.";
+            echo "No data.";
         }
 
         return ExitCode::OK;

@@ -15,6 +15,7 @@ use app\models\mongo\InvoiceMongo;
  */
 class InvoiceController extends Controller
 {
+
     /**
      * Import data from xls to MongoDB and from MongoDB to Elastic
      *
@@ -33,6 +34,7 @@ class InvoiceController extends Controller
         return ExitCode::OK;
     }
 
+
     /**
      * Recreate Elastic indexes
      *
@@ -48,6 +50,7 @@ class InvoiceController extends Controller
         return ExitCode::OK;
     }
 
+
     /**
      * Remove all data from MongoDB
      *
@@ -62,6 +65,7 @@ class InvoiceController extends Controller
         return ExitCode::OK;
     }
 
+
     /**
      * Get and prepare data for MongoDB from xls file
      *
@@ -74,6 +78,7 @@ class InvoiceController extends Controller
         $xlsFilePath = Yii::getAlias('@runtime/tmp/file.xls');
         return (new XlsParser())->parseFile($xlsFilePath, fn($row) => InvoiceXlsMapper::map($row)) ?? [];
     }
+
 
     /**
      * Import invoice data from xls to MongoDB
@@ -95,6 +100,7 @@ class InvoiceController extends Controller
             }
         }
     }
+
 
     /**
      * Import some cols from MongoDB to Elastic
